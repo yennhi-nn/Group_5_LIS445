@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  # Database Bán hàng
+  mysql_db:
+    image: mysql:8.0
+    container_name: noah_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: webstore
+    volumes:
+      - ./init-db/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - noah_network
+
+  # Database Tài chính
+  postgres_db:
+    image: postgres:15
+    container_name: noah_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: finance
+    networks:
+      - noah_network
+
+  # Trạm tin nhắn
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: noah_rabbitmq
+    networks:
+      - noah_network
+
+  # Gateway bảo mật
+  kong:
+    image: kong:latest
+    container_name: noah_kong
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+    volumes:
+      - ./docs/kong.yml:/usr/local/kong/declarative/kong.yml
+    ports:
+      - "8000:8000"
+    networks:
+      - noah_network
+
+  # Con Bot của Nhi
+  legacy_adapter:
+    build: 
+      context: .
+      dockerfile: ./modules/module-1/Dockerfile
+    container_name: legacy_adapter
+    volumes:
+      - ./app/input:/app/input
+      - ./app/processed:/app/processed
+    depends_on:
+      - mysql_db
+    networks:
+      - noah_network
+
+networks:
+  noah_network:
+    driver: bridge
