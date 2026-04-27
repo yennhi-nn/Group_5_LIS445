@@ -105,6 +105,29 @@ services:
     networks:
       - noah_network
 
+  # Module 3 + 4: Data Stitching + AI Insight
+  insight_service:
+    build:
+      context: ./modules/module-3-4
+      dockerfile: DockerFile
+    container_name: insight_service
+    environment:
+      AI_PROVIDER: ${AI_PROVIDER:-gemini}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      GROK_API_KEY: ${GROK_API_KEY:-}
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - noah_network
+
 networks:
   noah_network:
     driver: bridge
