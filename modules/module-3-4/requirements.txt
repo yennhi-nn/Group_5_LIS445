@@ -1,0 +1,9 @@
+flask
+pandas
+mysql-connector-python
+psycopg2-binary
+SQLAlchemy
+openai
+python-dotenv
+anthropic
+google-generativeai
