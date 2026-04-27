@@ -1,0 +1,9 @@
+_format_version: "3.0"
+
+services:
+  - name: order-api
+    url: http://order_api:8000
+    routes:
+      - name: order-routes
+        paths:
+          - /api/orders
