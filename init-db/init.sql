@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS products (id INT PRIMARY KEY, name VARCHAR(255), price DECIMAL(10,2), stock INT DEFAULT 0);
-CREATE TABLE IF NOT EXISTS orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, product_id INT, quantity INT, total_price DECIMAL(10,2), status VARCHAR(50) DEFAULT 'PENDING', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS orders (id INT AUTO_INCREMENT PRIMARY KEY, customer_id INT, product_id INT, quantity INT, total_price DECIMAL(10,2), status VARCHAR(50) DEFAULT 'PENDING', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 INSERT INTO products (id, name, price, stock) VALUES
 (100, 'Product_100', 219000, 0),
@@ -204,7 +204,7 @@ INSERT INTO products (id, name, price, stock) VALUES
 (299, 'Product_299', 314000, 0);
 
 -- Data mẫu cho nhóm (Randomized)
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (979, 195, 3, 396000, 'PENDING', '2026-01-26 10:00:05'),
 (691, 143, 2, 258000, 'PENDING', '2026-01-15 21:26:05'),
 (587, 252, 4, 308000, 'PENDING', '2026-01-18 15:56:05'),
@@ -1205,7 +1205,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (475, 208, 5, 520000, 'PENDING', '2026-01-14 15:20:05'),
 (771, 224, 3, 945000, 'PENDING', '2026-01-08 11:53:05'),
 (630, 277, 3, 360000, 'PENDING', '2026-01-17 18:19:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (473, 145, 3, 948000, 'PENDING', '2026-01-15 10:48:05'),
 (722, 190, 5, 600000, 'PENDING', '2026-01-27 01:44:05'),
 (368, 111, 4, 1932000, 'PENDING', '2026-01-21 17:44:05'),
@@ -2206,7 +2206,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (712, 173, 1, 363000, 'PENDING', '2026-01-25 16:05:05'),
 (926, 233, 2, 576000, 'PENDING', '2026-01-10 19:32:05'),
 (480, 155, 4, 528000, 'PENDING', '2026-01-12 20:26:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (104, 106, 3, 585000, 'PENDING', '2026-01-04 19:36:05'),
 (497, 192, 2, 178000, 'PENDING', '2026-01-23 07:14:05'),
 (451, 279, 4, 304000, 'PENDING', '2026-01-17 00:31:05'),
@@ -3207,7 +3207,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (624, 225, 4, 308000, 'PENDING', '2026-01-07 17:32:05'),
 (995, 259, 2, 460000, 'PENDING', '2026-01-28 04:00:05'),
 (802, 214, 1, 348000, 'PENDING', '2026-01-15 19:28:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (270, 183, 4, 1988000, 'PENDING', '2026-01-27 17:47:05'),
 (284, 140, 1, 193000, 'PENDING', '2026-01-27 09:15:05'),
 (45, 163, 1, 44000, 'PENDING', '2026-01-20 02:29:05'),
@@ -4208,7 +4208,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (895, 272, 4, 1112000, 'PENDING', '2026-01-29 12:25:05'),
 (39, 127, 3, 1314000, 'PENDING', '2026-01-14 04:14:05'),
 (812, 199, 1, 425000, 'PENDING', '2026-01-20 16:11:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (851, 281, 1, 68000, 'PENDING', '2026-02-02 08:28:05'),
 (972, 156, 3, 720000, 'PENDING', '2026-01-31 16:21:05'),
 (563, 249, 1, 50000, 'PENDING', '2026-01-17 00:38:05'),
@@ -5209,7 +5209,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (33, 190, 3, 360000, 'PENDING', '2026-01-23 03:43:05'),
 (250, 233, 4, 1152000, 'PENDING', '2026-01-29 06:52:05'),
 (949, 242, 1, 338000, 'PENDING', '2026-01-17 08:43:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (822, 146, 5, 930000, 'PENDING', '2026-01-25 16:18:05'),
 (465, 113, 2, 310000, 'PENDING', '2026-01-29 07:19:05'),
 (30, 162, 5, 725000, 'PENDING', '2026-01-12 22:44:05'),
@@ -6210,7 +6210,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (71, 160, 4, 108000, 'PENDING', '2026-01-25 14:40:05'),
 (716, 277, 2, 240000, 'PENDING', '2026-01-11 03:42:05'),
 (199, 248, 4, 996000, 'PENDING', '2026-01-25 09:05:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (588, 224, 4, 1260000, 'PENDING', '2026-02-01 01:04:05'),
 (43, 181, 2, 494000, 'PENDING', '2026-01-10 10:38:05'),
 (576, 279, 3, 228000, 'PENDING', '2026-01-30 06:05:05'),
@@ -7211,7 +7211,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (601, 208, 1, 104000, 'PENDING', '2026-01-07 12:17:05'),
 (603, 172, 4, 1024000, 'PENDING', '2026-01-24 07:13:05'),
 (864, 276, 1, 373000, 'PENDING', '2026-01-31 07:36:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (844, 124, 5, 2435000, 'PENDING', '2026-01-08 02:02:05'),
 (942, 245, 4, 704000, 'PENDING', '2026-01-18 03:37:05'),
 (514, 267, 4, 656000, 'PENDING', '2026-01-20 04:37:05'),
@@ -8212,7 +8212,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (245, 164, 1, 359000, 'PENDING', '2026-01-05 12:34:05'),
 (20, 107, 2, 226000, 'PENDING', '2026-01-10 07:50:05'),
 (762, 189, 1, 330000, 'PENDING', '2026-01-12 11:09:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (389, 125, 5, 945000, 'PENDING', '2026-01-04 23:28:05'),
 (137, 153, 3, 1227000, 'PENDING', '2026-02-01 22:37:05'),
 (799, 193, 5, 1090000, 'PENDING', '2026-01-30 21:07:05'),
@@ -9213,7 +9213,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (692, 193, 3, 654000, 'PENDING', '2026-01-05 13:49:05'),
 (125, 106, 1, 195000, 'PENDING', '2026-01-10 06:52:05'),
 (577, 172, 4, 1024000, 'PENDING', '2026-01-10 06:10:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (555, 234, 1, 360000, 'PENDING', '2026-01-31 21:30:05'),
 (505, 110, 4, 1100000, 'PENDING', '2026-01-26 05:59:05'),
 (511, 290, 4, 1364000, 'PENDING', '2026-01-13 22:02:05'),
@@ -10214,7 +10214,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (670, 181, 2, 494000, 'PENDING', '2026-01-23 00:31:05'),
 (125, 132, 2, 334000, 'PENDING', '2026-01-17 10:28:05'),
 (895, 288, 2, 444000, 'PENDING', '2026-01-31 17:46:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (691, 224, 1, 315000, 'PENDING', '2026-01-13 07:28:05'),
 (149, 139, 3, 930000, 'PENDING', '2026-02-01 04:57:05'),
 (823, 276, 5, 1865000, 'PENDING', '2026-01-16 10:55:05'),
@@ -11215,7 +11215,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (462, 141, 3, 120000, 'PENDING', '2026-01-29 15:29:05'),
 (875, 146, 4, 744000, 'PENDING', '2026-02-02 09:34:05'),
 (404, 132, 1, 167000, 'PENDING', '2026-01-15 10:31:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (600, 208, 5, 520000, 'PENDING', '2026-02-02 08:01:05'),
 (42, 140, 5, 965000, 'PENDING', '2026-01-20 16:22:05'),
 (639, 287, 1, 337000, 'PENDING', '2026-01-04 23:56:05'),
@@ -12216,7 +12216,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (455, 195, 3, 396000, 'PENDING', '2026-02-03 03:30:05'),
 (254, 138, 4, 1892000, 'PENDING', '2026-01-18 01:22:05'),
 (38, 256, 5, 1555000, 'PENDING', '2026-02-03 13:36:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (577, 279, 4, 304000, 'PENDING', '2026-02-01 05:04:05'),
 (792, 243, 3, 84000, 'PENDING', '2026-01-12 10:33:05'),
 (761, 175, 1, 483000, 'PENDING', '2026-01-26 21:27:05'),
@@ -13217,7 +13217,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (660, 249, 1, 50000, 'PENDING', '2026-01-06 02:23:05'),
 (350, 218, 2, 726000, 'PENDING', '2026-01-10 04:53:05'),
 (519, 205, 3, 1317000, 'PENDING', '2026-01-17 17:15:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (322, 291, 4, 2000000, 'PENDING', '2026-01-15 23:49:05'),
 (923, 175, 2, 966000, 'PENDING', '2026-01-26 21:56:05'),
 (191, 154, 5, 710000, 'PENDING', '2026-01-28 06:29:05'),
@@ -14218,7 +14218,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (711, 286, 1, 54000, 'PENDING', '2026-01-05 07:20:05'),
 (925, 275, 1, 493000, 'PENDING', '2026-01-23 12:07:05'),
 (383, 179, 3, 1419000, 'PENDING', '2026-02-01 12:49:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (757, 290, 3, 1023000, 'PENDING', '2026-01-26 21:37:05'),
 (773, 137, 1, 98000, 'PENDING', '2026-01-17 12:23:05'),
 (296, 298, 1, 345000, 'PENDING', '2026-01-28 10:07:05'),
@@ -15219,7 +15219,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (558, 202, 3, 1125000, 'PENDING', '2026-01-15 16:50:05'),
 (132, 212, 2, 674000, 'PENDING', '2026-01-12 07:00:05'),
 (807, 139, 1, 310000, 'PENDING', '2026-01-23 04:35:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (90, 270, 1, 352000, 'PENDING', '2026-01-14 13:33:05'),
 (534, 173, 4, 1452000, 'PENDING', '2026-02-02 12:13:05'),
 (366, 165, 2, 164000, 'PENDING', '2026-01-15 08:39:05'),
@@ -16220,7 +16220,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (394, 220, 2, 224000, 'PENDING', '2026-01-23 00:10:05'),
 (455, 155, 5, 660000, 'PENDING', '2026-01-26 15:49:05'),
 (105, 120, 5, 105000, 'PENDING', '2026-01-14 00:13:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (66, 241, 2, 336000, 'PENDING', '2026-01-11 14:21:05'),
 (823, 255, 1, 378000, 'PENDING', '2026-01-08 03:19:05'),
 (749, 162, 3, 435000, 'PENDING', '2026-01-09 15:32:05'),
@@ -17221,7 +17221,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (710, 253, 1, 411000, 'PENDING', '2026-01-22 11:52:05'),
 (824, 194, 2, 688000, 'PENDING', '2026-01-10 22:06:05'),
 (712, 202, 4, 1500000, 'PENDING', '2026-01-19 18:47:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (940, 202, 4, 1500000, 'PENDING', '2026-01-13 00:27:05'),
 (194, 206, 3, 105000, 'PENDING', '2026-01-19 15:44:05'),
 (916, 221, 2, 88000, 'PENDING', '2026-01-17 08:42:05'),
@@ -18222,7 +18222,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (522, 248, 2, 498000, 'PENDING', '2026-01-19 23:02:05'),
 (541, 287, 1, 337000, 'PENDING', '2026-01-16 15:22:05'),
 (372, 213, 4, 1024000, 'PENDING', '2026-01-21 01:35:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (110, 152, 2, 120000, 'PENDING', '2026-02-02 09:45:05'),
 (104, 172, 4, 1024000, 'PENDING', '2026-01-28 08:05:05'),
 (374, 177, 2, 296000, 'PENDING', '2026-01-25 19:40:05'),
@@ -19223,7 +19223,7 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (869, 231, 2, 788000, 'PENDING', '2026-01-22 09:30:05'),
 (999, 244, 1, 341000, 'PENDING', '2026-01-31 19:44:05'),
 (879, 193, 2, 436000, 'PENDING', '2026-02-03 03:19:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
+INSERT INTO orders (customer_id, product_id, quantity, total_price, status, created_at) VALUES
 (696, 101, 4, 608000, 'PENDING', '2026-01-18 07:29:05'),
 (196, 215, 3, 588000, 'PENDING', '2026-01-28 06:36:05'),
 (791, 148, 1, 307000, 'PENDING', '2026-01-08 17:13:05'),
@@ -20224,4 +20224,3 @@ INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_
 (515, 213, 3, 768000, 'PENDING', '2026-02-03 03:34:05'),
 (738, 291, 3, 1500000, 'PENDING', '2026-01-31 08:07:05'),
 (348, 246, 5, 1785000, 'PENDING', '2026-01-18 11:28:05');
-INSERT INTO orders (user_id, product_id, quantity, total_price, status, created_at) VALUES
