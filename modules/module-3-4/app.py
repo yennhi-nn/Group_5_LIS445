@@ -4,7 +4,7 @@ Expose API: GET /api/report
 """
 import sys
 import os
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, request
 from dotenv import load_dotenv
 
 # Cho phép import từ module-3 và module-4 (tên thư mục có dấu '-')
@@ -84,11 +84,6 @@ def api_report():
         "merged": report.get("merged", []),
         "ai_insight": ai_insight,
     })
-
-
-@app.route("/dashboard", methods=["GET"])
-def dashboard():
-    return render_template("dashboard.html")
 
 
 if __name__ == "__main__":

@@ -139,6 +139,24 @@ services:
     networks:
       - noah_network
 
+  # Module 6 - Dashboard UI (Streamlit)
+  dashboard:
+    build:
+      context: ./modules/module-6
+      dockerfile: Dockerfile
+    container_name: noah_dashboard
+    environment:
+      REPORT_URL: http://insight_service:5000/api/report
+      KONG_URL: http://kong:8000/report/api/report
+      KONG_API_KEY: noah-secret-key
+      USE_KONG: "false"
+    ports:
+      - "8501:8501"
+    depends_on:
+      - insight_service
+    networks:
+      - noah_network
+
 networks:
   noah_network:
     driver: bridge
