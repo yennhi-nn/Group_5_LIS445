@@ -4,7 +4,7 @@ Expose API: GET /api/report
 """
 import sys
 import os
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from dotenv import load_dotenv
 
 # Cho phép import từ module-3 và module-4 (tên thư mục có dấu '-')
@@ -40,13 +40,46 @@ def api_report():
     except Exception as e:
         return jsonify({"error": f"Lỗi khi nối dữ liệu: {str(e)}"}), 500
 
-    summary = report.get("summary", [])
-    ai_insight = get_ai_analysis(summary)
+    # Support pagination via query params
+    def _paginate(items, page, per_page):
+        total = len(items)
+        try:
+            page = int(page)
+        except Exception:
+            page = 1
+        try:
+            per_page = int(per_page)
+        except Exception:
+            per_page = 20
+        if page < 1:
+            page = 1
+        if per_page < 1:
+            per_page = 20
+        start = (page - 1) * per_page
+        end = start + per_page
+        total_pages = (total + per_page - 1) // per_page if per_page else 1
+        return items[start:end], {"total": total, "page": page, "per_page": per_page, "total_pages": total_pages}
+
+    # Read pagination params
+    orders_page = request.args.get("orders_page", 1)
+    orders_per_page = request.args.get("orders_per_page", 20)
+    summary_page = request.args.get("summary_page", 1)
+    summary_per_page = request.args.get("summary_per_page", 20)
+
+    summary_full = report.get("summary", [])
+    orders_full = report.get("orders", [])
+
+    orders_page_data, orders_meta = _paginate(orders_full, orders_page, orders_per_page)
+    summary_page_data, summary_meta = _paginate(summary_full, summary_page, summary_per_page)
+
+    ai_insight = get_ai_analysis(summary_full)
 
     return jsonify({
         "merged_count": report.get("merged_count", 0),
-        "customer_summary": summary,
-        "orders": report.get("orders", []),
+        "customer_summary": summary_page_data,
+        "customer_summary_meta": summary_meta,
+        "orders": orders_page_data,
+        "orders_meta": orders_meta,
         "transactions": report.get("transactions", []),
         "merged": report.get("merged", []),
         "ai_insight": ai_insight,
