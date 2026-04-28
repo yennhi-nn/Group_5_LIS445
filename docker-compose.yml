@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   # Database Bán hàng
   mysql_db:
@@ -9,9 +7,14 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: webstore
     volumes:
-      - ./init-db/mysql:/docker-entrypoint-initdb.d
+      - ./init-db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - noah_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Database Tài chính
   postgres_db:
@@ -23,6 +26,11 @@ services:
       POSTGRES_DB: finance
     networks:
       - noah_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d finance"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Trạm tin nhắn
   rabbitmq:
@@ -30,6 +38,11 @@ services:
     container_name: noah_rabbitmq
     networks:
       - noah_network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Gateway bảo mật
   kong:
@@ -47,7 +60,7 @@ services:
 
   # Con Bot của Nhi
   legacy_adapter:
-    build: 
+    build:
       context: .
       dockerfile: ./modules/module-1/Dockerfile
     container_name: legacy_adapter
@@ -55,7 +68,92 @@ services:
       - ./app/input:/app/input
       - ./app/processed:/app/processed
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
+    networks:
+      - noah_network
+
+  # Thành phần 2A (Order API)
+  order_api:
+    build:
+      context: ./modules/module-2a
+      dockerfile: Dockerfile
+    container_name: order_api
+    ports:
+      - "8001:8000"
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - noah_network
+
+  # Thành phần 2B (Order Worker)
+  order_worker:
+    build:
+      context: ./modules/module-2b
+      dockerfile: Dockerfile
+    container_name: order_worker
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+      postgres_db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - noah_network
+
+  # Module 3 + 4: Data Stitching + AI Insight
+  insight_service:
+    build:
+      context: ./modules/module-3-4
+      dockerfile: DockerFile
+    container_name: insight_service
+    environment:
+      AI_PROVIDER: ${AI_PROVIDER:-gemini}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      GROK_API_KEY: ${GROK_API_KEY:-}
+      # Kết nối DB nội bộ trong Docker-compose
+      MYSQL_HOST: mysql_db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DB: webstore
+      POSTGRES_HOST: postgres_db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: finance
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+      postgres_db:
+        condition: service_healthy
+    networks:
+      - noah_network
+
+  # Module 6 - Dashboard UI (Streamlit)
+  dashboard:
+    build:
+      context: ./modules/module-6
+      dockerfile: Dockerfile
+    container_name: noah_dashboard
+    environment:
+      REPORT_URL: http://insight_service:5000/api/report
+      KONG_URL: http://kong:8000/report/api/report
+      KONG_API_KEY: noah-secret-key
+      USE_KONG: "false"
+    ports:
+      - "8501:8501"
+    depends_on:
+      - insight_service
     networks:
       - noah_network
 
