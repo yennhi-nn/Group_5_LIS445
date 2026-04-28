@@ -1,9 +1,47 @@
 _format_version: "3.0"
 
+# ============================================================
+# Module 5 - Security Gateway
+# Key: noah-secret-key | Rate limit: 10 req/min
+# ============================================================
+
+consumers:
+  - username: noah
+    keyauth_credentials:
+      - key: noah-secret-key
+
+plugins:
+  # Rate Limiting global (áp dụng cho mọi route)
+  - name: rate-limiting
+    config:
+      minute: 10
+      policy: local
+
 services:
+  # --- Order API (Module 2A) ---
   - name: order-api
     url: http://order_api:8000
     routes:
-      - name: order-routes
+      - name: order-route
         paths:
-          - /api/orders
+          - /orders
+        strip_path: true
+    plugins:
+      - name: key-auth
+        config:
+          key_names:
+            - apikey
+
+  # --- Report / Insight Service (Module 3+4) ---
+  - name: report-service
+    url: http://insight_service:5000
+    routes:
+      - name: report-route
+        paths:
+          - /report
+        strip_path: true
+    plugins:
+      - name: key-auth
+        config:
+          key_names:
+            - apikey
