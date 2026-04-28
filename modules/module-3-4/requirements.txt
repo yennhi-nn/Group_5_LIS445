@@ -1,9 +1,14 @@
 flask
 pandas
+sqlalchemy
+pymysql
 mysql-connector-python
 psycopg2-binary
-SQLAlchemy
-openai
 python-dotenv
+requests
+streamlit
+
+#  (tuỳ chọn - chỉ dùng khi cần)
+openai
 anthropic
 google-generativeai
